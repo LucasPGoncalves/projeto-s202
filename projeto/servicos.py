@@ -29,9 +29,9 @@ class ServicoDAO():
         self.db.execute_query("MATCH(g:Groomer{nome:$nome})-[c:CUIDA]->(p:Pet) SET g.salario = g.salario + c.valor",
         {'nome': nome})
     
-    def subtractGroomerSalary(self, nome, id):
-        self.db.execute_query("MATCH(g:Groomer{nome:$nome})-[c:CUIDA{id:$id}]->(p:Pet) SET g.salario = g.salario - c.valor",
-        {'nome': nome, 'id': id})
+    def subtractGroomerSalary(self,id):
+        self.db.execute_query("MATCH(g:Groomer)-[c:CUIDA{id:$id}]->(p:Pet) SET g.salario = g.salario - c.valor",
+        {'id': id})
 
 def viewServicos():
     servicoDAO = ServicoDAO()
@@ -64,9 +64,8 @@ def viewServicos():
                 Divider()
     
     elif option == '3':
-        nome = input("Insira o nome do groomer: ")
         id = int(input("Insira o id do servico a deletar: "))
-        servicoDAO.subtractGroomerSalary(nome,id)
+        servicoDAO.subtractGroomerSalary(id)
         servicoDAO.deleteServicos(id)
         Divider()
 
